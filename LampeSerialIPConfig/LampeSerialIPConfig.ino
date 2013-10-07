@@ -94,7 +94,9 @@ void setup(){
  
  Ethernet.begin(IPConfig.MAC ,IPConfig.IP); 
  server.begin(IPConfig.PORT);
- server.addCallback("/rgb",&RGBset);
+ server.addCallback("/r",&setR);
+ server.addCallback("/g",&setG);
+ server.addCallback("/b",&setB);
  
  DmxSimple.usePin(3);
  DmxSimple.maxChannel(6);
@@ -112,10 +114,34 @@ void loop(){
   if(debug==1)Serial.println("incoming msg!");
 }
 
-void RGBset(OSCMessage *_mes){
+void setR(OSCMessage *_mes){
+  if (debug==1) debugPrint(_mes);
+  int tmp=int((_mes->getArgFloat(0))*255);
+  DmxSimple.write(1, tmp);
+}
+void setG(OSCMessage *_mes){
+  if (debug==1) debugPrint(_mes);
+  int tmp=int((_mes->getArgFloat(0))*255);
+  DmxSimple.write(2, tmp);
+}
+void setB(OSCMessage *_mes){
+  if (debug==1) debugPrint(_mes);
+  int tmp=int((_mes->getArgFloat(0))*255);
+  DmxSimple.write(3, tmp);
+}
+
+void debugPrint(OSCMessage *_mes){
+  logIp(_mes);
+  logOscAddress(_mes);
+  Serial.print("RGB Argument is: (");
+  Serial.print(_mes->getArgFloat(0));
+}
+
+
+/*void RGBset(OSCMessage *_mes){
   if(debug==1)logIp(_mes);
   if(debug==1)logOscAddress(_mes);
-
+  
   int tmpI=_mes->getArgInt32(0);
   int tmpII=_mes->getArgInt32(1);
   int tmpIII=_mes->getArgInt32(2);  
@@ -134,7 +160,7 @@ void RGBset(OSCMessage *_mes){
   Serial.print(" , ");
   Serial.print(tmpIII);
   Serial.println(")");}
-}
+}*/
 
 void logIp(OSCMessage *_mes){
   byte *ip = _mes->getIpAddress();

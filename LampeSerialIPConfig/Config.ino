@@ -162,7 +162,7 @@ void tem(){
  while(Serial.available()<1);  //Wait for User-Input
  
  while(Serial.available()>0){
-   for(int i=1;i<4;i++)
+   for(int i=0;i<3;i++)
      DmxSimple.write(i,Serial.parseInt());
    if (Serial.read()=='\n') break;
  }
