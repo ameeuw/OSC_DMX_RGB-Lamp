@@ -79,7 +79,7 @@ struct ConfigStruct {
 } 
 //Default Values
 IPConfig={
-  { 10, 150, 56, 175 },
+  { 192, 168, 0, 5 },
   { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED },
   10000
 };
